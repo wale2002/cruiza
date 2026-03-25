@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Sign-In Test for Postman</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 50px;
+      }
+      .g_id_signin {
+        display: inline-block;
+        margin-top: 20px;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: left;
+        max-width: 800px;
+        margin: 20px auto;
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔑 Google "Continue with Google" Test</h1>
+    <p>
+      Click the button below → then copy the <strong>idToken</strong> and use it
+      in Postman.
+    </p>
+
+    <div
+      id="g_id_onload"
+      data-client_id="833912650592-4uo6lhtq83ojr0kebs86kpsekstuqer0.apps.googleusercontent.com"
+      data-callback="handleCredentialResponse"
+    ></div>
+
+    <div
+      class="g_id_signin"
+      data-type="standard"
+      data-size="large"
+      data-theme="outline"
+      data-text="continue_with"
+      data-shape="rectangular"
+      data-logo_alignment="center"
+    ></div>
+
+    <h3>Your idToken (copy this):</h3>
+    <pre id="token-display">Click the Google button above...</pre>
+
+    <script>
+      function handleCredentialResponse(response) {
+        const token = response.credential;
+        document.getElementById("token-display").textContent = token;
+
+        console.log("✅ Google idToken received:");
+        console.log(token);
+
+        // Optional: auto-copy to clipboard
+        navigator.clipboard.writeText(token).then(() => {
+          const btn = document.createElement("div");
+          btn.style.cssText =
+            "position:fixed; top:20px; left:20px; background:#4CAF50; color:white; padding:10px 20px; border-radius:5px;";
+          btn.textContent = "✅ Token copied to clipboard!";
+          document.body.appendChild(btn);
+          setTimeout(() => btn.remove(), 3000);
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -2,6 +2,11 @@ const express = require("express");
 const connectDB = require("./config/database");
 const logger = require("./utils/logger");
 
+const dotenv = require("dotenv");
+
+// ← MUST be the VERY FIRST thing
+dotenv.config();
+
 const app = express();
 connectDB();
 
@@ -14,7 +19,7 @@ app.use("/api/routes", require("./routes/routeRoutes"));
 app.use("/api/bookings", require("./routes/bookingRoutes"));
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/api/tracking", require("./routes/trackingRoutes"));
-
+app.use("/api/upload", require("./routes/uploadRoutes"));
 // Error handling
 app.use((err, req, res, next) => {
   logger.error(err.message);
